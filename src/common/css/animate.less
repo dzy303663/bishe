@@ -1,0 +1,15 @@
+.pulse{  
+    &:hover{
+    animation:myfirst 1.5s;
+    animation-iteration-count:1;
+    }
+    
+}
+@-webkit-keyframes myfirst /* Safari and Chrome */
+        {
+            0%   {transform: scale(1)}
+            25%  {transform: scale(0.9) }
+            50%  {transform: scale(1);}
+            75%  {transform: scale(0.9);}
+            100% {transform: scale(1);}
+        }
