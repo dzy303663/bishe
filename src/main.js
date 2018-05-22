@@ -12,6 +12,7 @@ import 'vue2-animate/dist/vue2-animate.min.css';
 import './assets/icon/iconfont.css'
 import VideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
+ import 'videojs-contrib-hls';
 Vue.use(ElementUI);
 Vue.use(VideoPlayer);
 Vue.config.productionTip = false

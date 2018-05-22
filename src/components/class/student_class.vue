@@ -29,17 +29,17 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [{
           type: "application/x-mpegURL",
-          src: "video.m3u8" //你的m3u8地址（必填）
+          src: "http://localhost:5200/data/HLS-demo-master/m3u8/index.m3u8" //你的m3u8地址（必填）
         }],
         poster: "poster.jpg", //你的封面地址
         width: document.documentElement.clientWidth,
         notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-//        controlBar: {
-//          timeDivider: true,
-//          durationDisplay: true,
-//          remainingTimeDisplay: false,
-//          fullscreenToggle: true  //全屏按钮
-//        }
+       controlBar: {
+         timeDivider: true,
+         durationDisplay: true,
+         remainingTimeDisplay: false,
+         fullscreenToggle: true  //全屏按钮
+       }
       }
     }
   },
@@ -48,10 +48,16 @@ export default {
   },
   methods: {
     onPlayerPlay(player) {
-      alert("play");
+      this.$message({
+        message: "播放",
+        type: "success"
+      });
     },
     onPlayerPause(player){
-      alert("pause");
+      this.$message({
+        message: "暂停",
+        type: "success"
+      });
     },
   },
   computed: {
@@ -66,6 +72,6 @@ export default {
 <style type="text/css" scoped>
   .container {
     background-color: #efefef;
-    min-height: 100%;
+    min-height: 85%;
   }
 </style>

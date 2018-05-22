@@ -23,9 +23,9 @@
           >
          <div class="open" v-if="item.state">
            <span>{{item.title}}</span>  
-           <el-progress type="circle" :percentage="item.value" :stroke-width="10" :width="200">°</el-progress>
+           <el-progress type="circle" :percentage="item.value" :stroke-width="10" :width="200" >°</el-progress>
           <div class="block" >
-            <el-slider v-model="item.value"  show-input></el-slider>
+            <el-slider v-model="item.value"  show-input  @change="changeLight()"></el-slider>
           </div>
         </div>
         </transition>
@@ -108,7 +108,7 @@ export default {
           value: 50
         }
       ],
-      atmosphere:{
+      atmosphere: {
         So: 51,
         Co: 50,
         No2: 50,
@@ -116,54 +116,94 @@ export default {
         pm10: 50,
         AQI: 50
       },
-      curtainList:{
-        one: '关',
-        two: '半',
-        three: '全'
+      curtainList: {
+        one: "关",
+        two: "半",
+        three: "全"
       }
-    }
+    };
   },
-  methods:{
-    chioceItem: function (event) {
+  computed(){
+  
+  }
+  ,
+  methods: {
+    changeLight: function() {
+      var url = "http://localhost:5200/control/light";
+      this.$http({
+        method: "post",
+        url: url,
+        params: {
+          light_control: this.controlList[0].value,
+          light_state: this.controlList[0].state
+        }
+      }).then(res => {
+        this.$message({
+          //调节成功
+          showClose: true,
+          message: "调节成功,当前亮度为：" + this.controlList[0].value,
+          type: "success"
+        });
+      });
+    },
+    changeLight: function() {
+      var url = "http://localhost:5200/control/temp";
+      this.$http({
+        method: "post",
+        url: url,
+        params: {
+          light_control: this.controlList[1].value,
+          light_state: this.controlList[1].state
+        }
+      }).then(res => {
+        this.$message({
+          //调节成功
+          showClose: true,
+          message: "调节成功,当前空调温度为：" + this.controlList[1].value,
+          type: "success"
+        });
+      });
+    },
+    chioceItem: function(event) {
       //var ref_parent=this.$refs.curtainList1[0].children[0].innerHTML;
       // var ref_chioce=this.$refs.curtainList1[0].children[1].innerHTML;
-      var eve_parent=event.target.parentNode.children[0].innerHTML;
-      var eve_chioce=event.target.innerHTML;
-      if(eve_parent=="一号："){
+      var eve_parent = event.target.parentNode.children[0].innerHTML;
+      var eve_chioce = event.target.innerHTML;
+      if (eve_parent == "一号：") {
         for (var i = 1; i <= 3; i++) {
-          var classList=this.$refs.curtainList1[0].children[i].classList;
-          if(classList.length>2){
+          var classList = this.$refs.curtainList1[0].children[i].classList;
+          if (classList.length > 2) {
             console.log("去掉active class");
             classList.remove("active");
           }
-          if(eve_chioce==this.$refs.curtainList1[0].children[i].innerHTML){
-            console.log('选择正确');
+          if (eve_chioce == this.$refs.curtainList1[0].children[i].innerHTML) {
+            console.log("选择正确");
             event.target.classList.add("active");
           }
         }
       }
-       if(eve_parent=="二号："){
+      if (eve_parent == "二号：") {
         for (var i = 1; i <= 3; i++) {
-          var classList=this.$refs.curtainList2[0].children[i].classList;
-          if(classList.length>2){
+          var classList = this.$refs.curtainList2[0].children[i].classList;
+          if (classList.length > 2) {
             console.log("去掉active class");
             classList.remove("active");
           }
-          if(eve_chioce==this.$refs.curtainList2[0].children[i].innerHTML){
-            console.log('选择正确');
+          if (eve_chioce == this.$refs.curtainList2[0].children[i].innerHTML) {
+            console.log("选择正确");
             event.target.classList.add("active");
           }
         }
       }
-       if(eve_parent=="三号："){
+      if (eve_parent == "三号：") {
         for (var i = 1; i <= 3; i++) {
-          var classList=this.$refs.curtainList3[0].children[i].classList;
-          if(classList.length>2){
+          var classList = this.$refs.curtainList3[0].children[i].classList;
+          if (classList.length > 2) {
             console.log("去掉active class");
             classList.remove("active");
           }
-          if(eve_chioce==this.$refs.curtainList3[0].children[i].innerHTML){
-            console.log('选择正确');
+          if (eve_chioce == this.$refs.curtainList3[0].children[i].innerHTML) {
+            console.log("选择正确");
             event.target.classList.add("active");
           }
         }
@@ -172,14 +212,13 @@ export default {
         message: "操作成功",
         type: "success"
       });
-     /*  console.log(this.$refs.curtainList1[0].children[0].innerHTML);//ref 父
+      /*  console.log(this.$refs.curtainList1[0].children[0].innerHTML);//ref 父
       console.log(this.$refs.curtainList1[0].children[1].innerHTML);//ref 关，半，全
       console.log(event.target.parentNode.children[0].innerHTML);//event 父
       console.log(event.target.innerHTML);//event 关，半，全
 
       console.log(this.$refs.curtainList1[0].children);
       console.log(event.target); */
-
     }
   }
 };
@@ -215,16 +254,17 @@ export default {
     background-repeat: no-repeat;
     margin: 0 auto;
     text-align: center;
-    .icon-wendu,.icon-dengpao{
+    .icon-wendu,
+    .icon-dengpao {
       padding-top: 50px;
       font-size: 200px;
-      color: grey ;
+      color: grey;
     }
   }
   .open {
     text-align: center;
     width: 100%;
-    &>span {
+    & > span {
       color: white;
       font-size: 18px;
       display: block;
@@ -247,21 +287,22 @@ export default {
     background-repeat: no-repeat;
     margin: 0 auto;
     text-align: center;
-    .icon-chuanglian-,.icon-kongqizhiliang{
+    .icon-chuanglian-,
+    .icon-kongqizhiliang {
       text-align: center;
       font-size: 200px;
-      color: grey ;
+      color: grey;
     }
   }
   .open {
     text-align: center;
     width: 100%;
-    .curtainList{
+    .curtainList {
       list-style: none;
       margin: 10%;
       padding: 0;
       margin-top: 50px;
-      li{
+      li {
         display: block;
         margin-top: 20px;
         text-align: left;
@@ -269,11 +310,11 @@ export default {
         color: black;
         overflow: hidden;
         text-align: center;
-        &:hover{
+        &:hover {
           background-color: #b6b6f173;
           transition: all 0.5s ease;
         }
-        .item{
+        .item {
           display: inline-block;
           margin-right: 20px;
           font-size: 15px;
@@ -282,12 +323,12 @@ export default {
           line-height: 25px;
           overflow: hidden;
         }
-        .item_choice{
+        .item_choice {
           width: 25px;
-          border: 1px solid transparent;  
+          border: 1px solid transparent;
           border-radius: 50%;
           text-align: center;
-          &.active{
+          &.active {
             border-color: #987878;
             opacity: 1;
             transition: all 1s ease;
@@ -295,7 +336,7 @@ export default {
         }
       }
     }
-    &>span {
+    & > span {
       color: white;
       font-size: 18px;
       display: block;
@@ -306,10 +347,10 @@ export default {
     }
   }
 }
-.contain_atmosphere{
-    margin: 10px;
-    overflow: auto;
-    .close {
+.contain_atmosphere {
+  margin: 10px;
+  overflow: auto;
+  .close {
     width: 100%;
     height: 444px;
     // background-image: url("../.././assets/light.png");
@@ -318,29 +359,29 @@ export default {
     background-repeat: no-repeat;
     margin: 0 auto;
     text-align: center;
-    .icon-chuanglian-,.icon-kongqizhiliang{
+    .icon-chuanglian-,
+    .icon-kongqizhiliang {
       text-align: center;
       font-size: 200px;
-      color: grey ;
+      color: grey;
     }
   }
-  .open{
+  .open {
     text-align: center;
     width: 100%;
-    .row{
+    .row {
       margin: 10% 7%;
-      &>span{
+      & > span {
         display: inline-block;
         margin: 5px 20px;
         border-bottom: 1px solid black;
-       &>span{
-         color: white;
-       }
+        & > span {
+          color: white;
+        }
       }
     }
   }
 }
-
 </style>
 <style lang="less">
 .el-carousel__item {
