@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="container">
     <div class="player">
       <video-player  class="video-player vjs-custom-skin"
@@ -11,6 +12,7 @@
       </video-player>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -72,6 +74,7 @@ export default {
 <style type="text/css" scoped>
   .container {
     background-color: #efefef;
-    min-height: 85%;
+    width: 80%;
   }
+  
 </style>

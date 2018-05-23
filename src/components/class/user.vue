@@ -79,6 +79,6 @@ export default {
 .el-container {
   margin-bottom: 40px;
   background-color: #f2f8f7 ;
-  
+  height: 100%;
 }
 </style>
