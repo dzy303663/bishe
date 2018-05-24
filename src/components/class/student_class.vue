@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="height:100%;overflow:hidden">
   <div class="container">
     <div class="player">
       <video-player  class="video-player vjs-custom-skin"
@@ -10,6 +10,18 @@
                      @pause="onPlayerPause($event)"
       >
       </video-player>
+    </div>
+  </div>
+  <div class="chatRoom">
+    <el-input
+      placeholder="in this ..."
+      v-model="msg"
+      clearable
+      style="position: fixed;margin:0 0 0 0;width:16%"
+      >
+    </el-input>
+    <div v-for="o in 100" :key="o" class="firstLine text item" >
+      {{'列表内容 ' + o }}
     </div>
   </div>
 </div>
@@ -42,7 +54,18 @@ export default {
          remainingTimeDisplay: false,
          fullscreenToggle: true  //全屏按钮
        }
-      }
+      },
+      msg:"",
+      msgList:[
+        {
+          name:"shangshang",
+          message:"你好",
+          src:"../../assets/user.jpg"
+        },
+        {
+
+        }
+      ],
     }
   },
   components: {
@@ -69,12 +92,43 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.chatRoom{
+  position: absolute;
+  float: right;
+  width: 16%;
+  height: 80%;
+  overflow:auto;
+  display: inline-block;
+  border: 1px solid #ebeef5;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  margin: 0 5px;
+  //transform:translate(0,0);
+  &::-webkit-scrollbar {display:none};
+
+ div:nth-child(2){  
+      padding-top: 45px !important; 
+  }
+}
+
+</style> 
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style type="text/css" scoped>
+<style lang="less" scoped>
   .container {
     background-color: #efefef;
     width: 80%;
+    display: inline-block;
   }
+  .text{
+    &.item{
+      font-size:15px;
+      margin-bottom:8px;
+    }
+  }
+  
   
 </style>

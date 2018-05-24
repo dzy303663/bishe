@@ -80,7 +80,7 @@
     background-position: center;
   }
 </style>
-<style lang="less">
+<style lang="less" scoped>
 .el-card{
   width: 268px;
   height: 250px;
