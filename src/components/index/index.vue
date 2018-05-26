@@ -154,7 +154,8 @@ export default {
       })
         .then(res => {
           console.log(res);
-          if (res.data == "success") {
+          if (res.data.state == "success") {
+            
             //密码正确
             this.$message({
               message: "登录成功",
@@ -162,6 +163,9 @@ export default {
             });
             //改变vuex登录状态
             this.loginState();
+            //记录登陆人信息
+            this.$store.state.userName = this.user;
+            this.$store.state.name = res.data.name;
             //title隐藏
             this.title_state = false;
 

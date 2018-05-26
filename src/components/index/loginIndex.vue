@@ -50,6 +50,7 @@ export default {
    },
    mounted: function () {
      this.getData();
+    // alert(this.$store.state.userName)
       
    },
    methods:{

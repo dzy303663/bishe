@@ -1,3 +1,4 @@
+import Vue from 'vue'
 // 获取随机整数
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -34,7 +35,9 @@ export function formatDate(date, fmt) {
     }
     return fmt;
 };
+Vue.prototype.formatDate = formatDate;
 
 function padLeftZero(str) {
     return ('00' + str).substr(str.length);
 }
+

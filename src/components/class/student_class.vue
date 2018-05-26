@@ -22,9 +22,7 @@
       v-model="msg"
       clearable
       style="position: fixed;margin:0 0 0 0;width:16%"
-      @keyup.native.enter="msgList.unshift({ name: 'shangshang'+new Date().getTime(),
-          message: msg,
-          src: '../../assets/user.jpg'});msg = ''"
+      @keyup.native.enter="sendMessage()"
       v-show="showInput"
       @mouseover="showInput = true"
       >
@@ -39,9 +37,9 @@
         <div v-for="item in msgList" :key="item.$index" class="firstLine text item"   >
           <span class="user-img"></span>
           <div style="min-height:80px;display:block;float: left;">
-            <span class="userName">{{item.name}}</span>
+            <span class="userName" :class="item.name==$store.state.name? 'blueColor':''">{{item.name}}&nbsp  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp   {{now}}</span>
             <div class="userMsg">
-              {{item.message}}
+              {{item.msg}}
             </div>
           </div>
         </div>
@@ -53,6 +51,8 @@
 
 <script>
 import { videoPlayer } from "vue-video-player";
+import { formatDate } from "../../common/js/utils";
+import io from 'socket.io-client'
 export default {
   data() {
     return {
@@ -85,17 +85,17 @@ export default {
       msgList: [
         {
           name: "shangshang",
-          message: "你好",
+          msg: "你好",
           src: "../../assets/user.jpg"
         },
         {
           name: "wangwang",
-          message: "你好a",
+          msg: "你好a",
           src: "../../assets/user.jpg"
         },
         {
           name: "yangyang",
-          message: "你好b",
+          msg: "你好b",
           src: "../../assets/user.jpg"
         }
       ],
@@ -104,6 +104,15 @@ export default {
   },
   components: {
     videoPlayer
+  },
+  mounted(){
+    const that = this
+    // 连接websocket地址
+    this.socket = io.connect('http://localhost:5200')
+    this.socket.on('message', function(obj) {
+      console.log(that.msgList)
+        that.msgList.unshift(obj);
+    })
   },
   methods: {
     onPlayerPlay(player) {
@@ -117,12 +126,24 @@ export default {
         message: "暂停",
         type: "success"
       });
+    },
+    sendMessage(){
+      let obj = {
+        name: this.$store.state.name,
+        msg: this.msg
+      };
+       // 传递消息信息
+      this.socket.emit('message', obj);
+      this.msg = ''
     }
   },
   computed: {
     player() {
       return this.$refs.videoPlayer.player;
-    }
+    },
+    now: function(){
+      return formatDate(new Date(),'hh:mm:ss')
+    },
   }
 };
 </script>
@@ -147,6 +168,9 @@ export default {
   .firstLine:nth-child(1) {
     padding-top: 45px !important;
   }
+  .blueColor{
+    color: blue;
+  }
 }
 
 .user-img {
@@ -166,12 +190,13 @@ export default {
   display: block;
   height: 20px;
   max-width: 150px;
+  padding-left: 5px;
 }
 .userMsg {
   display: block;
   min-height: 20px;
   max-height: 500px;
-  width: 200px;
+  width: 150px;
   overflow: auto;
   border-radius: 6px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
