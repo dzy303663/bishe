@@ -142,6 +142,12 @@ export default {
       //登录url
       var url = "http://localhost:5200/login";
 
+
+this.loginState();
+ this.title_state = false;
+            this.$router.push("/LoginIndex");
+            this.dialogVisible = false;
+
       //登录验证
       this.$http({
         method: "post",
